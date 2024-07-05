@@ -4,6 +4,7 @@
 
 module Scripts (
     poseidonScript,
+    poseidonFixedSizeScript,
     listOfSizedByteStrings,
 ) where
 
@@ -11,7 +12,7 @@ import PlutusTx (compile, getPlcNoAnn, liftCodeDef, unsafeApplyCode)
 import PlutusTx.Prelude (Integer, ($), (.))
 
 import Plutus.Crypto.BlsUtils (Scalar)
-import Plutus.Crypto.Poseidon (poseidon)
+import Plutus.Crypto.Poseidon (poseidon, poseidonFixedSize)
 import PlutusCore (DefaultFun, DefaultUni)
 import qualified UntypedPlutusCore as UPLC
 
@@ -26,6 +27,15 @@ poseidonScript xs =
     getPlcNoAnn
         $ $$(compile [||poseidon||])
         `unsafeApplyCode` liftCodeDef xs
+
+poseidonFixedSizeScript :: [Scalar] -> [[Scalar]] -> Scalar -> Scalar -> UPLC.Program UPLC.NamedDeBruijn DefaultUni DefaultFun ()
+poseidonFixedSizeScript c m left right =
+    getPlcNoAnn
+        $ $$(compile [||poseidonFixedSize||])
+        `unsafeApplyCode` liftCodeDef c
+        `unsafeApplyCode` liftCodeDef m
+        `unsafeApplyCode` liftCodeDef left
+        `unsafeApplyCode` liftCodeDef right
 
 {-# NOINLINE listOfSizedByteStrings #-}
 listOfSizedByteStrings :: Integer -> Integer -> [ByteString]

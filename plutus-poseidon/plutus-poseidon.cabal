@@ -62,8 +62,8 @@ library
   exposed-modules:
     Plutus.Crypto.BlsUtils
     Plutus.Crypto.Poseidon
+    Plutus.Crypto.Poseidon.Constants
 
-  other-modules:    Plutus.Crypto.Poseidon.Constants
   hs-source-dirs:   src
   default-language: Haskell2010
   build-depends:
