@@ -109,7 +109,6 @@ poseidonFixedSize :: [Scalar] -> [[Scalar]] -> Scalar -> Scalar -> Scalar
 poseidonFixedSize c m left right = head $ foldl (\state r -> round r state) initState (enumFromTo 0 (f + p - 1))
   where
     t = 3
-    roundsP = [56, 57, 56, 60, 60, 63, 64, 63]
     f = 8
     p = 57
     initState = zero : [left, right]
